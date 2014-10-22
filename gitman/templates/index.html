@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>gitman: Repo List</title>
+	</head>
+	<body>
+	<ul>
+	{% for repo in repos %}
+		<li><a href="/{{ repo.path }}">{{ repo.name }}</a></li>
+	{% endfor %}
+	</ul>
+	</body>
+</html

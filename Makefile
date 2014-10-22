@@ -3,4 +3,4 @@ DEPS:
 
 .PHONY: run
 run:
-	./venv-python -m gitman
+	./venv-python -O -m gitman

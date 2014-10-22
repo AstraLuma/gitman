@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>gitman: Repo: {{ repo.name }}</title>
+	</head>
+	<body>
+	<h1>{{ repo.name }}</h1>
+	<dl>
+		<dt>Clone path</dt>
+		<dd><tt>storage:code/{{ repo.path }}</tt></dd>
+		{% if readme %}
+		<dt>README</dt>
+		<dd><pre>{{ readme }}</pre></dd>
+		{% endif %}
+	</body>
+</html
