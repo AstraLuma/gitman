@@ -6,10 +6,10 @@ REPO_ROOT = '/srv/code'
 
 # Map of README files and the parser to use
 READMES = {
-	'README': None,
-	'README.txt': None,
-	'README.md': None,
-	'README.rst': None,
+	'README': lambda s: s.decode('utf8'),
+	'README.txt': lambda s: s.decode('utf8'),
+	'README.md': lambda s: s.decode('utf8'),
+	'README.rst': lambda s: s.decode('utf8'),
 }
 
 app = Flask(__name__)
@@ -22,9 +22,9 @@ def index():
 @app.route("/<path:repo>")
 def showrepo(repo):
 	g = git[repo]
-	for fn, _ in READMES.items():
+	for fn, mapper in READMES.items():
 		try:
-			readme = g.file(fn)
+			readme = mapper(g.file(fn))
 		except Exception:
 			continue
 	else:

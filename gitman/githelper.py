@@ -1,4 +1,5 @@
 import os
+import subprocess
 
 class Repo:
 	fspath = None
@@ -8,7 +9,7 @@ class Repo:
 		vars(self).update(kws)
 
 	def file(self, fn):
-		pass
+		return subprocess.check_output(['git', 'show', 'HEAD:{}'.format(fn)], cwd=self.fspath)
 
 class GitHelper:
 	def __init__(self, root):
