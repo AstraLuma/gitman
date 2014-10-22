@@ -1,8 +1,11 @@
 from flask import Flask, render_template, request
 from .githelper import GitHelper
+import configparser
+import os.path
 
-# Config
-REPO_ROOT = '/srv/code'
+config = configparser.ConfigParser()
+configfile = lambda n: os.path.join(os.path.dirname(__file__), '..', n)
+config.read(map(configfile, ['default.ini', 'local.ini']))
 
 # Map of README files and the parser to use
 READMES = {
@@ -13,11 +16,11 @@ READMES = {
 }
 
 app = Flask(__name__)
-git = GitHelper(REPO_ROOT)
+git = GitHelper(config['git']['root'])
 
 @app.route("/")
 def index():
-	return render_template('index.html', repos=sorted(git, key=lambda i: i.name))
+	return render_template('index.html', repos=sorted(git, key=lambda i: i.name), cloneroot=config['git']['clone_root'])
 
 @app.route("/<path:repo>")
 def showrepo(repo):
@@ -32,4 +35,4 @@ def showrepo(repo):
 			break
 	else:
 		readme = None
-	return render_template('repo.html', repo=g, readme=readme)
+	return render_template('repo.html', repo=g, readme=readme, cloneroot=config['git']['clone_root'])

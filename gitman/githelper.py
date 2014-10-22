@@ -15,7 +15,6 @@ class Repo:
 		try:
 			return subprocess.check_output(['git', 'config', name], cwd=self.fspath, stderr=subprocess.DEVNULL).decode('utf8').rstrip()
 		except subprocess.CalledProcessError as err:
-			print(err)
 			if err.returncode == 1:
 				return None # XXX: Raise? Default? idk
 			else:
@@ -37,7 +36,6 @@ class Repo:
 		cmd += ['HEAD']
 		if paths:
 			cmd += paths
-		print(cmd)
 		out = subprocess.check_output(cmd, cwd=self.fspath)
 		out = out.decode('utf8')
 		for line in out.split('\n'):

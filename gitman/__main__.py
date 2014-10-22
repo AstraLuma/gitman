@@ -2,9 +2,9 @@
 import sys, os
 sys.path[0] = os.path.dirname(os.path.dirname(__file__))
 
-from gitman import app  # Asked #python: "Don't use relative imports"
+from gitman import app, config  # Asked #python: "Don't use relative imports"
 
 if __debug__:
 	app.debug = True
 
-app.run()
+app.run(host=config['http']['address'], port=config.getint('http', 'port'))

@@ -8,7 +8,7 @@
 	<h1>{{ repo.name }}</h1>
 	<dl>
 		<dt>Clone path</dt>
-		<dd><tt>storage:code/{{ repo.path }}</tt></dd>
+		<dd><tt>{{ cloneroot }}{{ repo.path }}</tt></dd>
 		<dt>Branches</dt>
 		<dd>
 			{% for branch in repo.branches() %}
