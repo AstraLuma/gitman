@@ -11,7 +11,7 @@
 		<dt>Branches</dt>
 		<dd>
 			{% for branch in repo.branches() %}
-			<tt>{{ branch }}</tt>
+			<tt title="{{ branch.description }}">{{ branch.name }}</tt>
 			{% endfor %}
 		</dd>
 		{% if readme %}

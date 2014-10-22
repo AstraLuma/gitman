@@ -11,14 +11,24 @@ class Repo:
 	def file(self, fn):
 		return subprocess.check_output(['git', 'show', 'HEAD:{}'.format(fn)], cwd=self.fspath, stderr=subprocess.DEVNULL)
 
+	def config(self, name):
+		try:
+			return subprocess.check_output(['git', 'config', name], cwd=self.fspath).decode('utf8').rstrip()
+		except subprocess.CalledProcessError as err:
+			print(err)
+			if err.returncode == 1:
+				return None # XXX: Raise? Default? idk
+			else:
+				raise
+
 	def branches(self, pattern=None):
 		pl = [pattern] if pattern else []
 		out = subprocess.check_output(['git', 'branch', '--list', '--no-color']+pl, cwd=self.fspath)
-		print("Output", out)
 		out = out.decode('utf8')
 		for line in out.split('\n'):
 			if not line: continue
-			yield line.lstrip('*').strip()
+			name = line.lstrip('*').strip()
+			yield {'name': name, 'description': self.config('branch.{}.description'.format(name)) or ''}
 
 
 class GitHelper:
