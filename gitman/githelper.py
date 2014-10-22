@@ -1,5 +1,6 @@
 import os
 import subprocess
+from collections import namedtuple
 
 class Repo:
 	fspath = None
@@ -13,7 +14,7 @@ class Repo:
 
 	def config(self, name):
 		try:
-			return subprocess.check_output(['git', 'config', name], cwd=self.fspath).decode('utf8').rstrip()
+			return subprocess.check_output(['git', 'config', name], cwd=self.fspath, stderr=subprocess.DEVNULL).decode('utf8').rstrip()
 		except subprocess.CalledProcessError as err:
 			print(err)
 			if err.returncode == 1:
@@ -29,6 +30,21 @@ class Repo:
 			if not line: continue
 			name = line.lstrip('*').strip()
 			yield {'name': name, 'description': self.config('branch.{}.description'.format(name)) or ''}
+
+	def files(self, *paths, recurse=False):
+		cmd = ['git', 'ls-tree', '--full-tree', '--name-only']
+		if recurse:
+			cmd += ['-r']
+		cmd += ['HEAD']
+		if paths:
+			cmd += paths
+		print(cmd)
+		out = subprocess.check_output(cmd, cwd=self.fspath)
+		out = out.decode('utf8')
+		for line in out.split('\n'):
+			if not line: continue
+			fn = line.rstrip()
+			yield fn
 
 
 class GitHelper:

@@ -19,5 +19,12 @@
 		<dt>Read Me</dt>
 		<dd><pre>{{ readme }}</pre></dd>
 		{% endif %}
+		<dt>Files</dt>
+		<dd>
+			<ul>
+			{% for fn in repo.files(recurse=True) %}
+			<li><tt>{{ fn }}</tt></li>
+			{% endfor %}
+		</dd>
 	</body>
 </html>
