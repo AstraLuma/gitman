@@ -1,6 +1,5 @@
 import os
 import subprocess
-from collections import namedtuple
 
 class Repo:
 	fspath = None
