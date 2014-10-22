@@ -8,6 +8,12 @@
 	<dl>
 		<dt>Clone path</dt>
 		<dd><tt>storage:code/{{ repo.path }}</tt></dd>
+		<dt>Branches</dt>
+		<dd>
+			{% for branch in repo.branches() %}
+			<tt>{{ branch }}</tt>
+			{% endfor %}
+		</dd>
 		{% if readme %}
 		<dt>Read Me</dt>
 		<dd><pre>{{ readme }}</pre></dd>

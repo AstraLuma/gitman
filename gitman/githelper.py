@@ -9,7 +9,17 @@ class Repo:
 		vars(self).update(kws)
 
 	def file(self, fn):
-		return subprocess.check_output(['git', 'show', 'HEAD:{}'.format(fn)], cwd=self.fspath)
+		return subprocess.check_output(['git', 'show', 'HEAD:{}'.format(fn)], cwd=self.fspath, stderr=subprocess.DEVNULL)
+
+	def branches(self, pattern=None):
+		pl = [pattern] if pattern else []
+		out = subprocess.check_output(['git', 'branch', '--list', '--no-color']+pl, cwd=self.fspath)
+		print("Output", out)
+		out = out.decode('utf8')
+		for line in out.split('\n'):
+			if not line: continue
+			yield line.lstrip('*').strip()
+
 
 class GitHelper:
 	def __init__(self, root):
