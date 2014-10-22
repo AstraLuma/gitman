@@ -1,0 +1,4 @@
+#!/bin/sh
+PROJECT=`dirname $0`
+. $PROJECT/.venv/bin/activate
+exec python $*
