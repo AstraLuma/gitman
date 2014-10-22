@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 PROJECT=`dirname $0`
 . $PROJECT/.venv/bin/activate
 export PYTHONPATH=$PROJECT:$PYTHONPATH
