@@ -24,9 +24,12 @@ def showrepo(repo):
 	g = git[repo]
 	for fn, mapper in READMES.items():
 		try:
-			readme = mapper(g.file(fn))
+			raw = g.file(fn)
 		except Exception:
 			continue
+		else:
+			readme = mapper(raw)
+			break
 	else:
 		readme = None
 	return render_template('repo.html', repo=g, readme=readme)
